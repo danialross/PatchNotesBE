@@ -108,11 +108,10 @@ async function fetchPRCommits(repoId, prId) {
 // Main endpoint
 app.get("/api/prs-with-commits", async (req, res) => {
   try {
-    const sourceBranch = req.query.source;
     const targetBranch = req.query.target;
     const dateFilter = req.query.date;
 
-    if (!sourceBranch || !targetBranch || !dateFilter) {
+    if (!targetBranch || !dateFilter) {
       return res.status(400).json({
         success: false,
         error:
@@ -125,12 +124,7 @@ app.get("/api/prs-with-commits", async (req, res) => {
     const results = [];
 
     for (const repoId of REPOS) {
-      const prs = await fetchPRsFromRepo(
-        repoId,
-        sourceBranch,
-        targetBranch,
-        dateFilter,
-      );
+      const prs = await fetchPRsFromRepo(repoId, targetBranch, dateFilter);
 
       for (const pr of prs) {
         const commits = await fetchPRCommits(repoId, pr.pullRequestId);
