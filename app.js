@@ -61,19 +61,13 @@ async function azureApiCall(endpoint, params = {}) {
 }
 
 // Fetch PRs from a single repo
-async function fetchPRsFromRepo(
-  repoId,
-  sourceBranch,
-  targetBranch,
-  dateFilter,
-) {
+async function fetchPRsFromRepo(repoId, targetBranch, dateFilter) {
   try {
     const data = await azureApiCall(
       `/git/repositories/${repoId}/pullrequests`,
       {
         $top: 20,
         "searchCriteria.status": "completed",
-        "searchCriteria.sourceRefName": `refs/heads/${sourceBranch}`,
         "searchCriteria.targetRefName": `refs/heads/${targetBranch}`,
       },
     );
