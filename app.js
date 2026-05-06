@@ -114,9 +114,8 @@ app.get("/api/prs-with-commits", async (req, res) => {
     if (!targetBranch || !dateFilter) {
       return res.status(400).json({
         success: false,
-        error:
-          "All three parameters are REQUIRED: ?source=branch&target=branch&date=MM/DD/YYYY",
-        example: "?source=ar-mc&target=ent-uat-v2&date=05/05/2026",
+        error: "Both parameters are REQUIRED: ?target=branch&date=MM/DD/YYYY",
+        example: "?target=ent-uat-v2&date=05/05/2026",
         timestamp: new Date().toISOString(),
       });
     }
@@ -149,7 +148,6 @@ app.get("/api/prs-with-commits", async (req, res) => {
     res.json({
       success: true,
       searchCriteria: {
-        sourceBranch: sourceBranch,
         targetBranch: targetBranch,
         dateInTitle: `[${dateFilter}]`,
       },
