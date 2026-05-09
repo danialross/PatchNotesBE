@@ -10,7 +10,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(cors());
 app.use(express.json());
 
@@ -20,7 +19,6 @@ const AZURE_PROJECT = "AccountX";
 const AZURE_PAT = process.env.AZURE_PAT;
 const PORT = 3000;
 
-// Your 7 repositories
 const REPOS = [
   "account-core",
   "procurement-core",
@@ -74,10 +72,9 @@ async function fetchPRsFromRepo(repoId, targetBranch, dateFilter) {
 
     console.log(`    Total PRs in ${repoId}: ${data.value.length}`);
 
-    // Filter PRs - MUST match ALL 3 criteria:
-    // 1. Source branch matches
-    // 2. Target branch matches
-    // 3. Title contains date in [MM/DD/YYYY] format
+    // Filter PRs - MUST match both criteria:
+    // 1. Target branch matches
+    // 2. Title contains date in [MM/DD/YYYY] format
     return data.value.filter((pr) => pr.title.includes(`[${dateFilter}]`));
   } catch (error) {
     console.error(`Error fetching PRs from repo ${repoId}:`, error.message);
